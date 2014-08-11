@@ -14,5 +14,5 @@ def search():
 	return jsonify(utils.get_torrents_by_query(query, offset))
 
 if __name__ == "__main__":
-	app.run(port=10001)
+	app.run(port=9001)
 
