@@ -5,7 +5,7 @@ t = TPB('https://thepiratebay.org') # create a TPB object with default domain
 
 def get_torrents_by_query(query, offset):
 	torrents = []
-	result = {}
+	#result = {}
 	
 	for torrent in t.search(query).order(ORDERS.SEEDERS.DES).page(offset):
 		torrent_info = {}
@@ -14,5 +14,5 @@ def get_torrents_by_query(query, offset):
 		torrent_info["download_link"] = torrent.magnet_link
 		torrent_info["seeders"] = torrent.seeders
 		torrents.append(torrent_info)
-	result["result"] = torrents
-	return result
+	#result["result"] = torrents
+	return torrents
