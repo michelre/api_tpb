@@ -16,6 +16,16 @@ def search():
 	result =  utils.get_torrents_by_query(query, offset)
 	return Response(json.dumps(result), mimetype='application/json')
 
+@app.route("/categories")
+def categories():
+	categories = utils.get_categories()
+	return Response(json.dumps(categories), mimetype='application/json')
+
+@app.route("/top100")
+def top100():
+	offset = request.args.get('offset') if request.args.get('offset') else 0
+	utils.get_torrent_top(offset)
+
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=9001)
 
