@@ -7,11 +7,20 @@ import tpb_utils as utils
 import json
 
 app = Flask(__name__)
+app.debug = True
 cors = CORS(app)
 
-@app.route("/search")
+@app.route("/")
+def home():
+	routes = {}
+	routes['search'] = '/torrents/search?q={query}'
+	routes['top'] = '/torrents/top/<category>'
+	routes['categories'] = '/categories'
+	return Response(json.dumps(routes), mimetype='application/json')
+
+@app.route("/torrents/search")
 def search():
-	query = request.args.get('query')
+	query = request.args.get('q')
 	offset = request.args.get('offset') if request.args.get('offset') else 0
 	result =  utils.get_torrents_by_query(query, offset)
 	return Response(json.dumps(result), mimetype='application/json')
@@ -21,10 +30,12 @@ def categories():
 	categories = utils.get_categories()
 	return Response(json.dumps(categories), mimetype='application/json')
 
-@app.route("/top100")
-def top100():
-	offset = request.args.get('offset') if request.args.get('offset') else 0
-	utils.get_torrent_top(offset)
+@app.route("/torrents/top/<category>")
+def torrentsPerCategory(category):
+	#offset = request.args.get('offset') if request.args.get('offset') else 0	
+	tops = utils.get_torrents_per_category(category)
+	print tops
+	return Response(json.dumps(tops), mimetype='application/json')
 
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=9001)
