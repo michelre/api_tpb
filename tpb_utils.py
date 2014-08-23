@@ -27,8 +27,8 @@ def find_sub_categories(path, acc):
 				find_sub_categories(path+'.'+name, acc[-1]["categories"])
 	return acc
 
-def get_categories():
-	return find_sub_categories('CATEGORIES', [{"name": "CATEGORIES", "categories": []}])[0]
+def get_categories(root, depth):
+	all_categories = find_sub_categories('CATEGORIES', [{"name": "CATEGORIES", "categories": []}])[0]
 
 def get_torrents_per_category(category):
 	torrents = []

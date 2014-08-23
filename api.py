@@ -27,7 +27,9 @@ def search():
 
 @app.route("/categories")
 def categories():
-	categories = utils.get_categories()
+	root = request.args.get('root') if request.args.get('root') else 'CATEGORIES'
+	depth = request.args.get('depth') if request.args.get('depth') else 100000
+	categories = utils.get_categories(root, depth)	
 	return Response(json.dumps(categories), mimetype='application/json')
 
 @app.route("/torrents/top/<category>")
