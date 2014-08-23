@@ -27,14 +27,13 @@ def search():
 
 @app.route("/categories")
 def categories():
-	root = request.args.get('root') if request.args.get('root') else 'CATEGORIES'
-	depth = request.args.get('depth') if request.args.get('depth') else 100000
-	categories = utils.get_categories(root, depth)	
+	children_of = request.args.get('children_of') if request.args.get('children_of') else 'CATEGORIES'
+	depth = int(request.args.get('depth')) if request.args.get('depth') else 100
+	categories = utils.get_categories(children_of, depth)	
 	return Response(json.dumps(categories), mimetype='application/json')
 
 @app.route("/torrents/top/<category>")
 def torrentsPerCategory(category):
-	#offset = request.args.get('offset') if request.args.get('offset') else 0	
 	tops = utils.get_torrents_per_category(category)
 	print tops
 	return Response(json.dumps(tops), mimetype='application/json')

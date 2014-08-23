@@ -19,16 +19,36 @@ def get_torrents_by_query(query, offset):
 		torrents.append(torrent_info)
 	return torrents
 
-def find_sub_categories(path, acc):	
+
+def find_all_categories(path, acc, depth):		
+	if depth == 0:
+		return acc
 	if inspect.isclass(eval(path)):
 		for name in dir(eval(path)):		
 			if not name.startswith('_'):
-				acc[-1]["categories"].append({"name": name, "categories":[]})
-				find_sub_categories(path+'.'+name, acc[-1]["categories"])
+				acc[-1]["categories"].append({"name": name, "categories":[], "path": path+"."+name})
+				find_all_categories(path+'.'+name, acc[-1]["categories"], depth-1)
 	return acc
 
-def get_categories(root, depth):
-	all_categories = find_sub_categories('CATEGORIES', [{"name": "CATEGORIES", "categories": []}])[0]
+def get_category(categories, category, index):
+	array_category = str(category).split(".")	
+	for c in categories:
+		array_c = c["path"].split(".")
+		if array_c == array_category[:index]:
+			if len(array_category) == index:
+				return c
+			else:
+				return get_category(c["categories"], category, index+1)
+
+def get_categories(children_of, depth):
+	if depth < 0:
+		depth = 0
+	depth_children_of = len(children_of.split(".")) - 1
+	all_categories = find_all_categories('CATEGORIES', [{"name": "CATEGORIES", "categories": [], "path": "CATEGORIES"}], depth + depth_children_of)[0]
+	if(children_of == "CATEGORIES"):		
+		return all_categories
+	else:
+		return get_category(all_categories["categories"], children_of, 2)
 
 def get_torrents_per_category(category):
 	torrents = []
