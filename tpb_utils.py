@@ -26,7 +26,7 @@ def find_all_categories(path, acc, depth):
 	if inspect.isclass(eval(path)):
 		for name in dir(eval(path)):		
 			if not name.startswith('_'):
-				acc[-1]["categories"].append({"name": name, "categories":[], "path": path+"."+name})
+				acc[-1]["categories"].append({"name": name, "categories":[], "path": path+"."+name, "has_children": inspect.isclass(eval(path+'.'+name))})
 				find_all_categories(path+'.'+name, acc[-1]["categories"], depth-1)
 	return acc
 
@@ -44,7 +44,7 @@ def get_categories(children_of, depth):
 	if depth < 0:
 		depth = 0
 	depth_children_of = len(children_of.split(".")) - 1
-	all_categories = find_all_categories('CATEGORIES', [{"name": "CATEGORIES", "categories": [], "path": "CATEGORIES"}], depth + depth_children_of)[0]
+	all_categories = find_all_categories('CATEGORIES', [{"name": "CATEGORIES", "categories": [], "path": "CATEGORIES", "has_children": True}], depth + depth_children_of)[0]
 	if(children_of == "CATEGORIES"):		
 		return all_categories
 	else:
