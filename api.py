@@ -35,7 +35,6 @@ def categories():
 @app.route("/torrents/top/<category>")
 def torrentsPerCategory(category):
 	tops = utils.get_torrents_per_category(category)
-	print tops
 	return Response(json.dumps(tops), mimetype='application/json')
 
 if __name__ == "__main__":
