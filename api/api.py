@@ -1,17 +1,16 @@
-from flask import Flask
 from flask import request
 from flask import Response
-#from flask import jsonify
-from flask.ext.cors import CORS
 import tpb_utils as utils
 import json
+from flask import Flask
+from flask.ext.cors import CORS
 
 app = Flask(__name__)
-app.debug = True
 cors = CORS(app)
 
 @app.route("/")
 def home():
+	print "route home"
 	routes = {}
 	routes['search'] = '/torrents/search?q={query}'
 	routes['top'] = '/torrents/top/<category>'
@@ -37,6 +36,5 @@ def torrentsPerCategory(category):
 	tops = utils.get_torrents_per_category(category)
 	return Response(json.dumps(tops), mimetype='application/json')
 
-if __name__ == "__main__":
-	app.run(host='0.0.0.0', port=9001)
-
+if __name__ == '__main__':
+        app.run()
