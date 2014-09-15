@@ -24,6 +24,12 @@ def search():
 	result =  utils.get_torrents_by_query(query, offset)
 	return Response(json.dumps(result), mimetype='application/json')
 
+@app.route("/torrents/info")
+def info():
+	title = request.args.get('title')
+	torrent_info = utils.get_torrent_info(title)
+	return Response(json.dumps(torrent_info), mimetype='application/json')
+
 @app.route("/categories")
 def categories():
 	children_of = request.args.get('children_of') if request.args.get('children_of') else 'CATEGORIES'
@@ -37,4 +43,4 @@ def torrentsPerCategory(category):
 	return Response(json.dumps(tops), mimetype='application/json')
 
 if __name__ == '__main__':
-        app.run()
+        app.run(debug=True)

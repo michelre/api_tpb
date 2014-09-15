@@ -57,4 +57,11 @@ def get_torrents_per_category(category):
 		torrents.append(torrent_info)		
 	return torrents
 
+def get_torrent_info(torrent_title):
+	torrent_info = {}
+	for torrent in t.search(torrent_title):
+		torrent_info["description"] = torrent.info
+	return torrent_info
+
+
 	
