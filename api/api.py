@@ -26,8 +26,11 @@ def search():
 
 @app.route("/torrents/info")
 def info():
-	title = request.args.get('title')
-	torrent_info = utils.get_torrent_info(title)
+	torrent_info = {}
+	url = request.args.get('url')
+	torrent_info = utils.get_torrent_info_by_url(url)
+	#title = request.args.get('title')
+	#torrent_info = utils.get_torrent_info(title)
 	return Response(json.dumps(torrent_info), mimetype='application/json')
 
 @app.route("/categories")

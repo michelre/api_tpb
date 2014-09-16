@@ -3,6 +3,9 @@ from tpb import CATEGORIES, ORDERS
 import re
 import inspect
 import urllib
+import requests
+from pyquery import PyQuery as pq
+from lxml import etree
 
 t = TPB('https://thepiratebay.org')
 
@@ -67,6 +70,14 @@ def get_torrent_info(torrent_title):
 	for torrent in t.search(torrent_title):	
 		torrent_info["description"] = torrent.info
 	return torrent_info
+
+def get_torrent_info_by_url(torrent_url):	
+	torrent_info = {}
+	r = requests.get(torrent_url)
+	d = pq(r.text)
+	torrent_info["description"] = d("pre").html()
+	return torrent_info
+
 
 
 	
