@@ -2,15 +2,17 @@ from tpb import TPB
 from tpb import CATEGORIES, ORDERS
 import re
 import inspect
+import urllib
 
 t = TPB('https://thepiratebay.org')
 
 def make_dict_from_torrent(torrent):
 	torrent_info = {}
+	print torrent.url
 	torrent_info["title"] = torrent.title
 	torrent_info["size"] = torrent.size
 	torrent_info["download_link"] = torrent.magnet_link
-	#torrent_info["url"] = torrent.url
+	torrent_info["url"] = "%s" % torrent.url
 	return torrent_info
 
 def get_torrents_by_query(query, offset):
