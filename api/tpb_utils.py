@@ -16,6 +16,7 @@ def get_torrents_by_query(query, offset):
 	torrents = []	
 	for torrent in t.search(query).order(ORDERS.SEEDERS.DES).page(offset):
 		torrent_info = make_dict_from_torrent(torrent)
+		torrent_info["description"] = torrent.info
 		torrents.append(torrent_info)
 	return torrents
 
