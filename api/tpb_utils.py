@@ -10,14 +10,16 @@ def make_dict_from_torrent(torrent):
 	torrent_info["title"] = torrent.title
 	torrent_info["size"] = torrent.size
 	torrent_info["download_link"] = torrent.magnet_link
+	#torrent_info["url"] = torrent.url
 	return torrent_info
 
 def get_torrents_by_query(query, offset):
 	torrents = []	
 	for torrent in t.search(query).order(ORDERS.SEEDERS.DES).page(offset):
 		torrent_info = make_dict_from_torrent(torrent)
-		torrent_info["description"] = torrent.info
+		#torrent_info["description"] = torrent.info
 		torrents.append(torrent_info)
+	global_torrents = torrents		
 	return torrents
 
 
@@ -60,7 +62,7 @@ def get_torrents_per_category(category):
 
 def get_torrent_info(torrent_title):
 	torrent_info = {}
-	for torrent in t.search(torrent_title):
+	for torrent in t.search(torrent_title):	
 		torrent_info["description"] = torrent.info
 	return torrent_info
 
