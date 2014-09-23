@@ -6,25 +6,54 @@ import urllib
 import requests
 from pyquery import PyQuery as pq
 from lxml import etree
+import json
 
 t = TPB('https://thepiratebay.org')
 
+def sizeof_fmt(num):
+    for x in ['bytes','KB','MB','GB','TB']:
+        if num < 1024.0:
+            return "%3.1f %s" % (num, x)
+        num /= 1024.0
+
+def t411_auth(username, password):
+	result_req = requests.post("http://api.t411.me/auth", {'username': username, 'password': password})
+	return result_req.text
+
 def make_dict_from_torrent(torrent):
 	torrent_info = {}
-	print torrent.url
 	torrent_info["title"] = torrent.title
 	torrent_info["size"] = torrent.size
 	torrent_info["download_link"] = torrent.magnet_link
 	torrent_info["url"] = "%s" % torrent.url
 	return torrent_info
 
-def get_torrents_by_query(query, offset):
+def make_dict_from_torrent_t411(torrent):	
+	torrent_info = {}
+	torrent_info["title"] = torrent["name"]
+	torrent_info["size"] = sizeof_fmt(float(torrent["size"]))
+	torrent_info["id"] = torrent["id"]
+	return torrent_info
+
+def get_torrents_tpb_by_query(query, offset):
 	torrents = []	
 	for torrent in t.search(query).order(ORDERS.SEEDERS.DES).page(offset):
 		torrent_info = make_dict_from_torrent(torrent)
 		#torrent_info["description"] = torrent.info
 		torrents.append(torrent_info)
 	global_torrents = torrents		
+	return torrents
+
+def get_torrents_t411_by_query(query, offset, authorization):
+	torrents = []
+	result_req = requests.get('http://api.t411.me/torrents/search/' + query + '?offset=' + str(offset) + '&limit=30', headers={'Authorization': authorization})
+	for torrent in json.loads(result_req.text)["torrents"]:
+		torrent_info = make_dict_from_torrent_t411(torrent)
+		#torrent_info = {}
+		#torrent_info["title"] = torrent["name"]
+		#torrent_info["id"] = torrent["id"]
+		#torrent_info["size"] = torrent["size"]
+		torrents.append(torrent_info)
 	return torrents
 
 
@@ -58,6 +87,17 @@ def get_categories(children_of, depth):
 	else:
 		return get_category(all_categories["categories"], children_of, 2)
 
+def get_top_100_t411(authorization):
+	torrents = []
+	result_req = requests.get('http://api.t411.me/torrents/top/100',  headers={'Authorization': authorization})
+	print result_req.text
+	for torrent in json.loads(result_req.text):
+		print torrent
+		torrent_info = make_dict_from_torrent_t411(torrent)
+		torrents.append(torrent_info)
+	return torrents
+
+
 def get_torrents_per_category(category):
 	torrents = []
 	for torrent in t.top().category(eval(category)):
@@ -65,10 +105,10 @@ def get_torrents_per_category(category):
 		torrents.append(torrent_info)		
 	return torrents
 
-def get_torrent_info(torrent_title):
+def get_torrent_info_t411(torrent_id, authorization):
 	torrent_info = {}
-	for torrent in t.search(torrent_title):	
-		torrent_info["description"] = torrent.info
+	result_req = requests.get('http://api.t411.me/torrents/details/' + torrent_id,  headers={'Authorization': authorization})
+	torrent_info["description"] = json.loads(result_req.text)["description"]
 	return torrent_info
 
 def get_torrent_info_by_url(torrent_url):	
