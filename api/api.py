@@ -24,12 +24,11 @@ def auth(tracker):
 		username = request.form['username']
 		password = request.form['password']
 		result = utils.t411_auth(username, password)
-		return Response(json.dumps(result), mimetype='application/json')
+		return Response(result, mimetype='application/json')
 	return Response(json.dumps("{}"), mimetype='application/json')
 
 @app.route("/torrents/<tracker>/search/<query>")
 def search(tracker, query):
-	#query = request.args.get('q')
 	offset = request.args.get('offset') if request.args.get('offset') else 0
 	if tracker == "t411":
 		authorization = request.args.get('authorization')
