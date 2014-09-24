@@ -51,7 +51,7 @@ def info(tracker, id):
 def categories(tracker):
 	if tracker == "t411":
 		categories = {"path": "CATEGORIES", "name":"CATEGORIES", "has_children": True, "categories": 
-		[{"path": "CATEGORIES.ALL", "has_children": False, "name": "ALL", "categories":[]}]}, {"path": "CATEGORIES.TOPS", "has_children": False, "name": "TOPS", "categories":[{"path": "CATEGORIES.TOP100", "has_children": False, "name": "TOP100", "categories":[]}]}]}
+		[{"path": "CATEGORIES.ALL", "has_children": False, "name": "ALL", "categories":[]}]}, {"path": "CATEGORIES.TOPS", "has_children": False, "name": "TOPS", "categories":[{"path": "CATEGORIES.TOP100", "has_children": False, "name": "TOP100", "categories":[]}]}
 	else:
 		children_of = request.args.get('children_of') if request.args.get('children_of') else 'CATEGORIES'
 		depth = int(request.args.get('depth')) if request.args.get('depth') else 100
