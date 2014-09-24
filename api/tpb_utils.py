@@ -108,6 +108,7 @@ def get_torrents_per_category(category):
 def get_torrent_info_t411(torrent_id, authorization):
 	torrent_info = {}
 	result_req = requests.get('http://api.t411.me/torrents/details/' + torrent_id,  headers={'Authorization': authorization})
+	print result_req.text
 	torrent_info["description"] = json.loads(result_req.text)["description"]
 	return torrent_info
 
@@ -118,6 +119,6 @@ def get_torrent_info_by_url(torrent_url):
 	torrent_info["description"] = d("pre").html()
 	return torrent_info
 
-
-
-	
+def get_torrent_file(id, authorization):
+	r = requests.get('http://api.t411.me/torrents/download/' + id,  headers={'Authorization': authorization})
+	return r.content

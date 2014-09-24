@@ -67,5 +67,14 @@ def torrentsPerCategory(tracker, category):
 		tops = utils.get_torrents_per_category(category)
 	return Response(json.dumps(tops), mimetype='application/json')
 
+@app.route("/torrents/<tracker>/download/<id>")
+def download(tracker, id):
+	if tracker == "t411":
+		authorization = request.args.get('authorization')
+		torrent_file = utils.get_torrent_file(id, authorization)
+		return Response(torrent_file, mimetype='application/x-bittorrent')
+	return Response(None, mimetype='application/x-bittorrent')
+
+
 if __name__ == '__main__':
         app.run(debug=True)
