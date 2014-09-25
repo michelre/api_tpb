@@ -37,8 +37,9 @@ def search(tracker, query):
 		result = utils.get_torrents_tpb_by_query(query, offset)		
 	return Response(json.dumps(result), mimetype='application/json')
 
-@app.route("/torrents/<tracker>/info/<id>")
-def info(tracker, id):
+@app.route("/torrents/<tracker>/info")
+def info(tracker):
+	id = request.args.get('id')
 	torrent_info = {}
 	if tracker == "t411":
 		authorization = request.args.get('authorization')
