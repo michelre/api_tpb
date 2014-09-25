@@ -45,14 +45,10 @@ def get_torrents_tpb_by_query(query, offset):
 	return torrents
 
 def get_torrents_t411_by_query(query, offset, authorization):
-	torrents = []
-	result_req = requests.get('http://api.t411.me/torrents/search/' + query + '?offset=' + str(offset) + '&limit=30', headers={'Authorization': authorization})
+	torrents = []	
+	result_req = requests.get('http://api.t411.me/torrents/search/' + query + '?offset=' + str(offset) + '&limit=30', headers={'Authorization': authorization})	
 	for torrent in json.loads(result_req.text)["torrents"]:
 		torrent_info = make_dict_from_torrent_t411(torrent)
-		#torrent_info = {}
-		#torrent_info["title"] = torrent["name"]
-		#torrent_info["id"] = torrent["id"]
-		#torrent_info["size"] = torrent["size"]
 		torrents.append(torrent_info)
 	return torrents
 
