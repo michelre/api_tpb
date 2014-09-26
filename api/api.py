@@ -10,12 +10,12 @@ cors = CORS(app)
 
 @app.route("/")
 def home():
-	print "route home"
 	routes = {}
 	routes['auth'] = '/auth/<tracker>'
 	routes['search'] = '/torrents/<tracker>/search?q={query}'
+	routes['info'] = '/torrents/<tracker>/info?id={id}'
 	routes['top'] = '/torrents/<tracker>/top/<category>'
-	routes['categories'] = '/categories/<tracker>'
+	routes['categories'] = '/categories/<tracker>'	
 	return Response(json.dumps(routes), mimetype='application/json')
 
 @app.route("/auth/<tracker>", methods=['POST'])
