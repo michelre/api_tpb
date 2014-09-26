@@ -73,9 +73,9 @@ def torrentsPerCategory(tracker, category):
 def download(tracker, id):
 	if tracker == "t411":
 		authorization = request.args.get('authorization')
-		torrent_file = utils.get_torrent_file(id, authorization)
-		return Response(torrent_file, mimetype='application/x-bittorrent')
-	return Response(None, mimetype='application/x-bittorrent')
+		magnet_link = utils.get_torrent_file(id, authorization)
+		return Response(json.dumps(magnet_link), mimetype='application/json')
+	return Response(None, mimetype='application/json')
 
 
 if __name__ == '__main__':
