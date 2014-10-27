@@ -58,7 +58,7 @@ def find_all_categories(path, acc, depth):
 	if depth == 0:
 		return acc
 	if inspect.isclass(eval(path)):
-		for name in dir(eval(path)):		
+		for name in dir(eval(path)):
 			if not name.startswith('_'):
 				acc[-1]["categories"].append({"name": name, "categories":[], "path": path+"."+name, "has_children": inspect.isclass(eval(path+'.'+name))})
 				find_all_categories(path+'.'+name, acc[-1]["categories"], depth-1)
@@ -98,8 +98,9 @@ def get_top_100_t411(authorization):
 def get_torrents_per_category(category):
 	torrents = []
 	for torrent in t.top().category(eval(category)):
-		torrent_info = make_dict_from_torrent(torrent)
-		torrents.append(torrent_info)		
+		if torrent != None:
+			torrent_info = make_dict_from_torrent(torrent)
+			torrents.append(torrent_info)		
 	return torrents
 
 def get_torrent_info_t411(torrent_id, authorization):
