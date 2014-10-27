@@ -18,7 +18,7 @@ def home():
 	routes['categories'] = '/categories/<tracker>'	
 	return Response(json.dumps(routes), mimetype='application/json')
 
-@app.route("/auth/<tracker>", methods=['POST'])
+@app.route("/auth/<tracker>", methods=['POST', 'OPTIONS'])
 def auth(tracker):
 	if tracker == "t411":
 		username = request.form['username']
