@@ -1,17 +1,12 @@
-#from tpb import TPB
-#from tpb import CATEGORIES, ORDERS
 import re
 import inspect
 import urllib
 import requests
-#from pyquery import PyQuery as pq
-#from lxml import etree
 import json
 import utils
 
-#t = TPB('https://thepiratebay.org')
 
-base_url = {'t411' : 'http://api.t411.me', 'torrent-hunter' : 'http://www.torrent-hunter.com/api/v1'}
+base_url = {'t411' : 'http://api.t411.me', 'torrent-hunter' : 'http://localhost/api/v1'}
 
 def sizeof_fmt(num):
     for x in ['bytes','KB','MB','GB','TB']:
