@@ -6,7 +6,7 @@ import json
 import utils
 
 
-base_url = {'t411' : 'http://api.t411.me', 'torrent-hunter' : 'http://localhost/api/v1'}
+base_url = {'t411' : 'http://api.t411.me', 'torrent-hunter' : 'http://localhost:81/api/v1'}
 
 def sizeof_fmt(num):
     for x in ['bytes','KB','MB','GB','TB']:
